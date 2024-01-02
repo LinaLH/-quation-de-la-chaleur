@@ -1,5 +1,5 @@
 /**
- * \file animation.h
+ * \file animation.hpp
  * This file implements the definition of different functions used to
  * display animation
  *
@@ -15,8 +15,8 @@
  */
 
 #include <SDL2/SDL.h>
-#include "matrix.h"
-#include "constants.h"
+#include "matrix.hpp"
+#include "constants.hpp"
 
 /**
  * \brief displays the colored animation and the curve for the bar

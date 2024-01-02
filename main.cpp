@@ -1,10 +1,10 @@
-#include "headers/matrix.h"
-#include "headers/constants.h"
-#include "headers/interface.h"
-#include "headers/materiel.h"
-#include "headers/animation.h"
-#include "headers/barre.h"
-#include "headers/plaque.h"
+#include "headers/matrix.hpp"
+#include "headers/constants.hpp"
+#include "headers/interface.hpp"
+#include "headers/materiel.hpp"
+#include "headers/animation.hpp"
+#include "headers/barre.hpp"
+#include "headers/plaque.hpp"
 
 #include <iostream>
 #include <cmath>

@@ -12,8 +12,8 @@
  *
  */
 
-#ifndef MATRIX_H // to avoid multiple inclusions
-#define MATRIX_H
+#ifndef MATRIX_HPP // to avoid multiple inclusions
+#define MATRIX_HPP
 
 #include <iostream>
 

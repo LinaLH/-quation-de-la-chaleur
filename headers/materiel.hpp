@@ -1,5 +1,5 @@
-#ifndef MATERIEL_H // to avoid multiple inclusions
-#define MATERIEL_H
+#ifndef MATERIEL_HPP // to avoid multiple inclusions
+#define MATERIEL_HPP
 
 namespace materiaux
 {

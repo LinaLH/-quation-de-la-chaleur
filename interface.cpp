@@ -1,4 +1,4 @@
-#include "headers/interface.h"
+#include "headers/interface.hpp"
 
 #include <iostream>
 

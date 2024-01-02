@@ -1,5 +1,5 @@
 /**
- * \file interface.h
+ * \file interface.hpp
  * This file implements the definition of different functions used to
  * interact with the user
  *
@@ -8,8 +8,8 @@
  * - material_choice returns the choice of material made by the user
  */
 
-#ifndef INTERFACE_H // to avoid multiple inclusions
-#define INTERFACE_H
+#ifndef INTERFACE_HPP // to avoid multiple inclusions
+#define INTERFACE_HPP
 
 /**
  * \brief returns the choice of support made by the user

@@ -1,5 +1,5 @@
 /**
- * \file barre.h
+ * \file barre.hpp
  * This file implements the definition of different functions used to
  * compute the heat diffusion in a bar
  *
@@ -8,10 +8,10 @@
  * - evolution_barre realize the different computes for the heat diffusion
  */
 
-#ifndef BARRE_H // to avoid multiple inclusions
-#define BARRE_H
+#ifndef BARRE_HPP // to avoid multiple inclusions
+#define BARRE_HPP
 
-#include "matrix.h"
+#include "matrix.hpp"
 
 /**
  * \brief fill a matrix according to the function F

@@ -1,6 +1,6 @@
-#include "headers/barre.h"
-#include "headers/matrix.h"
-#include "headers/constants.h"
+#include "headers/barre.hpp"
+#include "headers/matrix.hpp"
+#include "headers/constants.hpp"
 
 #include <cmath>
 

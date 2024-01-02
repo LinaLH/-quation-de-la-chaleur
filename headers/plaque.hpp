@@ -8,10 +8,10 @@
  * - evolution_plaque realizes the different computes for the heat diffusion
  */
 
-#ifndef PLAQUE_H // to avoid multiple inclusions
-#define PLAQUE_H
+#ifndef PLAQUE_HPP // to avoid multiple inclusions
+#define PLAQUE_HPP
 
-#include "matrix.h"
+#include "matrix.hpp"
 
 /**
  * \brief fills a matrix according to the function F

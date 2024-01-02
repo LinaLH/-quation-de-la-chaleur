@@ -1,5 +1,5 @@
-#ifndef CONSTANTS_H // to avoid multiple inclusions
-#define CONSTANTS_H
+#ifndef CONSTANTS_HPP // to avoid multiple inclusions
+#define CONSTANTS_HPP
 
 #include <cmath>
 

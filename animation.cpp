@@ -1,4 +1,4 @@
-#include "headers/animation.h"
+#include "headers/animation.hpp"
 
 using namespace std;
 using namespace cst;

@@ -1,5 +1,5 @@
-#include "headers/matrix.h"
-#include "headers/constants.h"
+#include "headers/matrix.hpp"
+#include "headers/constants.hpp"
 
 #include <iostream>
 #include <cmath>
