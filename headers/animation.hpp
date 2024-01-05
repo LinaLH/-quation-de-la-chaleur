@@ -77,9 +77,9 @@ void grid(SDL_Renderer *renderer);
 double max_matrix(Matrix U);
 
 /**
-\brief Updates and refreshes the display.
-\param renderer The renderer we want to refresh.
-*/
+ * \brief Updates and refreshes the display.
+ * \param renderer The renderer we want to refresh.
+ */
 void refresh_display(SDL_Renderer *renderer);
 
 /**

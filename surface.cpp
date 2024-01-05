@@ -12,7 +12,8 @@ Matrix F_surface()
 {
     Matrix F(N_space, N_space);
     double elt = tmax * pow(f, 2);
-    // [L/6; 2*L/6] x [L/6; 2*L/6]
+
+    // Assigning values to the heat source vector for the interval [L/6, 2L/6] x [L/6, 2L/6]
     for (int i = N_space / 6; i <= N_space / 3; i++)
     {
         for (int j = N_space / 6; j <= N_space / 3; j++)
@@ -20,7 +21,8 @@ Matrix F_surface()
             F(i, j) = elt;
         }
     }
-    // [4L/6; 5L/6] x [L/6; 2*L/6]
+
+    // Assigning values to the heat source vector for the interval [4L/6, 5L/6] x [L/6, 2L/6]
     for (int i = N_space / 6; i <= N_space / 3; i++)
     {
         for (int j = 2 * N_space / 3; j <= 5 * N_space / 6; j++)
@@ -28,7 +30,7 @@ Matrix F_surface()
             F(i, j) = elt;
         }
     }
-    // [L/6; 2*L/6] x [4L/6; 5L/6]
+    // Assigning values to the heat source vector for the interval [L/6, 2L/6] x [4L/6, 5L/6]
     for (int i = 2 * N_space / 3; i <= 5 * N_space / 6; i++)
     {
         for (int j = N_space / 6; j <= N_space / 3; j++)
@@ -36,7 +38,7 @@ Matrix F_surface()
             F(i, j) = elt;
         }
     }
-    // [4L/6; 5L/6] x [4L/6; 5L/6]
+    // Assigning values to the heat source vector for the interval [4L/6, 5L/6] x [4L/6, 5L/6]
     for (int i = 2 * N_space / 3; i <= 5 * N_space / 6; i++)
     {
         for (int j = 2 * N_space / 3; j <= 5 * N_space / 6; j++)
@@ -46,6 +48,8 @@ Matrix F_surface()
     }
 
     Matrix F_col(N_space * N_space, 1);
+
+    // Transforming the matrix into a column vector
     for (int j = 1; j <= N_space; j++)
     {
         for (int i = 1; i <= N_space; i++)
@@ -61,8 +65,10 @@ Matrix surface_evolution(const double lambda, const double rho, const double c_m
     const double coeff = delta_t / (rho * c_mat);
     const double d = lambda * coeff / pow(delta_x, 2);
     const int n = N_space * N_space;
+
     Matrix A(n, n);
 
+    // Construction of the tridiagonal matrix A
     for (int i = 1; i <= n; i++)
     {
         A(i, i) = 1 - 4 * d;
@@ -81,6 +87,7 @@ Matrix surface_evolution(const double lambda, const double rho, const double c_m
 
     std::vector<Matrix> U_n;
 
+    // Initializing the matrix for the initial temperature distribution
     Matrix U_start(n, 1);
     for (int i = 1; i <= n; i++)
     {
@@ -88,11 +95,13 @@ Matrix surface_evolution(const double lambda, const double rho, const double c_m
     }
     U_n.push_back(U_start);
 
+    // Time-stepping loop for temperature evolution
     for (int j = 0; j < N_time; j++)
     {
         const Matrix &U_prec = U_n[j];
         Matrix U_succ(n, 1);
 
+        // // Applying the tridiagonal matrix A to the previous temperature distribution
         for (int i = 1; i <= N_space; i++)
         {
             U_succ(i, 1) = A(i, i) * U_prec(i, 1) + A(N_space + i, i) * U_prec(N_space + i, 1);
@@ -106,7 +115,10 @@ Matrix surface_evolution(const double lambda, const double rho, const double c_m
             U_succ(i, 1) = A(i - N_space, i) * U_prec(i - N_space, 1) + A(i, i) * U_prec(i, 1);
         }
 
+        // Adding the heat source term
         U_succ = U_succ + B;
+
+        // Applying boundary conditions
         for (int i = n - N_space; i <= n; i++)
         {
             U_succ(i, 1) = u_0; // Dirichlet condition (y=L)
@@ -118,12 +130,12 @@ Matrix surface_evolution(const double lambda, const double rho, const double c_m
             U_succ(i * N_space + 1, 1) = u_0;       // Neumann condition (y=0)
         }
 
-        // Débogage
+        // Debugging
         cout << "Step " << j << ": " << U_succ(1, 1) << ", " << U_succ(n, 1) << endl;
 
         U_n.push_back(U_succ);
     }
-
+    // Constructing the final matrix for temperature evolution over time
     Matrix U(n, N_time);
     for (int i = 0; i < N_time; i++)
     {
