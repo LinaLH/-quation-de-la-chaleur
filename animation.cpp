@@ -17,7 +17,7 @@ void play_bar(Matrix U, SDL_Renderer *renderer)
     Matrix pos(N_space, 1);
     for (int i = 1; i < N_space + 1; i++)
     {
-        pos(i, 1) = i * WINDOW_WIDTH / N_space;
+        pos(i, 1) = i * window_width / N_space;
     }
 
     // Loop for displaying temperature evolution frames
@@ -242,19 +242,17 @@ void grid(SDL_Renderer *renderer)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
     // Draw vertical grid lines
-    for (int x = 0; x < WINDOW_WIDTH; x += gridSize)
+    for (int x = 0; x < window_width; x += gridSize)
     {
-        SDL_RenderDrawLine(renderer, x, 0, x, WINDOW_HEIGHT / 2);
+        SDL_RenderDrawLine(renderer, x, 0, x, window_height / 2);
     }
 
     // Draw horizontal grid lines
-    for (int y = 0; y < WINDOW_HEIGHT / 2; y += gridSize)
+    for (int y = 0; y < window_height / 2; y += gridSize)
     {
-        SDL_RenderDrawLine(renderer, 0, y, WINDOW_WIDTH, y);
+        SDL_RenderDrawLine(renderer, 0, y, window_width, y);
     }
 
     // Update the renderer to display the grid
     SDL_RenderPresent(renderer);
 }
-
-

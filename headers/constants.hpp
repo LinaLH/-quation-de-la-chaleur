@@ -15,11 +15,11 @@ namespace cst
 
     // time and space intervals
     const double delta_t = tmax / N_time; // (tmax - tmin) / N
-    const double delta_x = L / N_space; // (xmax - xmin) / N
+    const double delta_x = L / N_space;   // (xmax - xmin) / N
 
     // SDL constants
-    const int WINDOW_WIDTH = 1240;
-    const int WINDOW_HEIGHT = 800;
+    const int window_width = 1240;
+    const int window_height = 800;
     const int t_val = 100; // number of points
 }
 

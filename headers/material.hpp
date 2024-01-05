@@ -3,19 +3,19 @@
 
 namespace materials
 {
-    namespace cuivre
+    namespace copper
     {
         const double lambda = 389.0; // W/(m.K)
         const double rho = 8940.0;   // kg/m3
         const double c_mat = 380.0;  // J/(kg.K)
     }
-    namespace fer
+    namespace iron
     {
         const double lambda = 80.2;
         const double rho = 7874.0;
         const double c_mat = 440.0;
     }
-    namespace verre
+    namespace glass
     {
         const double lambda = 1.2;
         const double rho = 2530.0;

@@ -26,23 +26,23 @@ int main()
     double lambda, rho, c_mat;
     if (material == 1)
     {
-        lambda = cuivre::lambda;
-        rho = cuivre::rho;
-        c_mat = cuivre::c_mat;
+        lambda = copper::lambda;
+        rho = copper::rho;
+        c_mat = copper::c_mat;
         // cout << "Copper loop done" << endl;
     }
     if (material == 2)
     {
-        lambda = fer::lambda;
-        rho = fer::rho;
-        c_mat = fer::c_mat;
+        lambda = iron::lambda;
+        rho = iron::rho;
+        c_mat = iron::c_mat;
         // cout << "Iron loop done" << endl;
     }
     if (material == 3)
     {
-        lambda = verre::lambda;
-        rho = verre::rho;
-        c_mat = verre::c_mat;
+        lambda = glass::lambda;
+        rho = glass::rho;
+        c_mat = glass::c_mat;
         // cout << "Glass loop done" << endl;
     }
     if (material == 4)
@@ -61,7 +61,7 @@ int main()
         Matrix U = bar_evolution(lambda, rho, c_mat);
         // cout << "Bar evolution don" << endl;
         cout << U << endl;
-        SDL_Window *window = Init_window(WINDOW_WIDTH, WINDOW_HEIGHT);
+        SDL_Window *window = Init_window(window_width, window_height);
         // cout << "sdl window done" << endl;
         SDL_Renderer *renderer = Init_renderer(window);
         // cout << "sdl renderer done" << endl;
@@ -80,7 +80,7 @@ int main()
         Matrix U = surface_evolution(lambda, rho, c_mat);
         // cout << "Surface evolution done" << endl;
         // cout << U << endl;
-        SDL_Window *window = Init_window(WINDOW_WIDTH, WINDOW_HEIGHT);
+        SDL_Window *window = Init_window(window_width, window_height);
         // cout << "sdl window done" << endl;
         SDL_Renderer *renderer = Init_renderer(window);
         // cout << "sdl renderer done" << endl;
