@@ -1,5 +1,6 @@
 #include "headers/matrix.hpp"
 #include "headers/constants.hpp"
+#include "headers/surface.hpp"
 
 #include <cmath>
 #include <vector>
@@ -7,7 +8,7 @@
 using namespace std;
 using namespace cst;
 
-Matrix F_plaque()
+Matrix F_surface()
 {
     Matrix F(N_space, N_space);
     double elt = tmax * pow(f, 2);
@@ -55,7 +56,7 @@ Matrix F_plaque()
     return F_col;
 }
 
-Matrix evolution_plaque(const double lambda, const double rho, const double c_mat)
+Matrix surface_evolution(const double lambda, const double rho, const double c_mat)
 {
     const double coeff = delta_t / (rho * c_mat);
     const double d = lambda * coeff / pow(delta_x, 2);
@@ -75,12 +76,12 @@ Matrix evolution_plaque(const double lambda, const double rho, const double c_ma
         A(i, i - N_space) = d;
     }
 
-    Matrix F = F_plaque();
+    Matrix F = F_surface();
     Matrix B = coeff * F;
 
     std::vector<Matrix> U_n;
 
-    Matrix U_start = Matrix(n, 1);
+    Matrix U_start(n, 1);
     for (int i = 1; i <= n; i++)
     {
         U_start(i, 1) = u_0; // for all x, for all y, u(t=0, x, y) = u_0
@@ -89,8 +90,9 @@ Matrix evolution_plaque(const double lambda, const double rho, const double c_ma
 
     for (int j = 0; j < N_time; j++)
     {
-        Matrix U_prec = U_n[j];
+        const Matrix &U_prec = U_n[j];
         Matrix U_succ(n, 1);
+
         for (int i = 1; i <= N_space; i++)
         {
             U_succ(i, 1) = A(i, i) * U_prec(i, 1) + A(N_space + i, i) * U_prec(N_space + i, 1);
@@ -103,24 +105,29 @@ Matrix evolution_plaque(const double lambda, const double rho, const double c_ma
         {
             U_succ(i, 1) = A(i - N_space, i) * U_prec(i - N_space, 1) + A(i, i) * U_prec(i, 1);
         }
+
         U_succ = U_succ + B;
         for (int i = n - N_space; i <= n; i++)
         {
-            U_succ(i, 1) = u_0; // Dirichlet conditions (y=L)
+            U_succ(i, 1) = u_0; // Dirichlet condition (y=L)
         }
         for (int i = 1; i < N_space; i++)
         {
-            U_succ((i - 1) * N_space + i, 1) = u_0; // Neumann conditions (x=0)
-            U_succ(i * N_space, 1) = u_0;           // Dirichlet conditions (x=L)
-            U_succ(i * N_space + 1, 1) = u_0;       // Neumann conditions (y=0)
+            U_succ((i - 1) * N_space + i, 1) = u_0; // Neumann condition (x=0)
+            U_succ(i * N_space, 1) = u_0;           // Dirichlet condition (x=L)
+            U_succ(i * N_space + 1, 1) = u_0;       // Neumann condition (y=0)
         }
-        U_n.push_back(U_succ + B);
+
+        // Débogage
+        cout << "Step " << j << ": " << U_succ(1, 1) << ", " << U_succ(n, 1) << endl;
+
+        U_n.push_back(U_succ);
     }
 
     Matrix U(n, N_time);
     for (int i = 0; i < N_time; i++)
     {
-        Matrix U_bloc = U_n[i];
+        const Matrix &U_bloc = U_n[i];
         for (int k = 1; k <= n; k++)
         {
             U(k, i + 1) = U_bloc(k, 1);

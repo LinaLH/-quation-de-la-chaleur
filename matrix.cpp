@@ -15,7 +15,7 @@ Matrix::Matrix(int i, int j)
     set_col(j);
     data_ = new double[i * j];
     if (data_ == nullptr)
-        throw std::runtime_error("Memory allocation error");
+        throw std::runtime_error("memory allocation error");
 }
 
 // destructor
@@ -52,9 +52,9 @@ void Matrix::set_col(int j) { this->col_nb_ = j; }
 int Matrix::offset(int row, int col) const
 {
     if (row > get_row())
-        throw std::invalid_argument("num ligne incorrect");
+        throw std::invalid_argument("invalid row number");
     if (col > get_col())
-        throw std::invalid_argument("num colonne incorrect");
+        throw std::invalid_argument("invalid column number");
     if (get_col() == 1)
     {
         return (row - 1);
@@ -65,18 +65,12 @@ int Matrix::offset(int row, int col) const
 // overload of []
 double Matrix::operator[](int i) const
 {
-    // if (i<0 || i >= row_nb_) {
-    //     throw std::out_of_range("Element out of bounds!");
-    // }
     return this->data_[i];
 }
 
 // overload of []
 double &Matrix::operator[](int i)
 {
-    // if (i<0 || i >= row_nb_) {
-    //     throw std::out_of_range("Element out of bounds!");
-    // }
     return this->data_[i];
 }
 
@@ -100,6 +94,20 @@ bool Matrix::operator==(const Matrix &mat)
             assertion = (mat.data_ == data_);
     }
     return (assertion);
+}
+
+Matrix &Matrix::operator=(const Matrix &copy)
+{
+    set_row(copy.get_row());
+    set_col(copy.get_col());
+    if (&copy != this)
+    {
+        Matrix tmp = copy;
+        double *tmp_data = data_;
+        data_ = copy.data_;
+        tmp.data_ = tmp_data;
+    }
+    return *this;
 }
 
 Matrix inverse(const int N_space, const double a, const double b, const Matrix &Id)
@@ -139,139 +147,6 @@ Matrix inverse(const int N_space, const double a, const double b, const Matrix &
     return res;
 }
 
-/*
-Matrix inverse_diag(const int n, Matrix A) {
-    Matrix res(n,n);
-    for (int i=1; i<=n; i++) {
-        res(i,i) = 1/A(i,i);
-    }
-    return res;
-}
-
-Matrix transpose(const int N_space, const Matrix A) {
-    Matrix res(N_space, N_space);
-
-    for (int i=1; i<=N_space; i++){
-        for (int j=1; j<=N_space; j++){
-            res(i,j) = A(j,i);
-        }
-    }
-    return res;
-}
-
-Matrix inverse_gauss(const Matrix A) {
-    int col = A.get_col();
-
-    for (int i = 1; i <= col; i++){
-        if (A(i,i) == 0) throw std::invalid_argument("Il y a un zéro sur la diagonale donc matrice non inversible");
-    }
-    Matrix temp = A;
-    Matrix res = Matrix(col, col);
-    for (int p = 1; p <= col; p++){
-        res(p, p) = 1;
-    }
-
-    for (int k = 1; k <= col; k++){
-        double var = temp(k, k);
-        for (int i = 1; i <= col; i++){
-            temp(k, i) = temp(k, i)/var;
-            res(k, i) = res(k,i)/var;
-        }
-
-        for (int j = (k+1); j <= col; j++){
-            double var1 = temp(j, k);
-            for (int l = 1; l <= col; l++){
-                temp(j, l) = temp(j, l) - var1 * temp(k, l);
-                res(j, l) = res(j, l) - var1 * res(k, l);
-            }
-        }
-    }
-    return res;
-}
-
-Matrix inverse_block(const int N_space, const double a, const double b) {
-    double coeff = - a / b; // 1+4d / d
-
-    std::vector<Matrix> U_vect; // vector of the U matrixes addresses
-    Matrix U_curr(N_space, N_space); // U_i
-    Matrix U_succ(N_space, N_space); // U_i+1
-
-    std::vector<Matrix> V_vect; // vector of the V matrixes addresses
-    Matrix V_curr(N_space, N_space); // V_i
-    Matrix V_prec(N_space, N_space); // V_i-1
-
-    // U_1
-    fill_tridiag(U_curr, 0, 1, 0); // Id
-
-    // U_2
-    U_succ = coeff * U_curr; // 1+4d / d * Id
-    U_vect.push_back(U_curr);
-    U_vect.push_back(U_succ);
-
-    for (int i=1; i<N_space-1; i++) {
-        U_vect.push_back((coeff * U_vect[i]) - U_vect[i-1]);
-    }
-
-    // V_n
-    V_curr = a * U_vect[N_space] - b * transpose(N_space, U_vect[N_space-1]); // ( 1+4d U_n - d U_n-i^T ) ^ -1
-    V_curr = inverse_gauss(V_curr);
-
-    // V_n-1
-    V_prec = coeff * V_curr;
-    V_vect.push_back(V_curr);
-    V_vect.push_back(V_prec);
-
-    for (int i=N_space-2; i>=0; i--) {
-        V_vect.push_back(coeff * V_vect[i+1] - V_vect[i+2]);
-    }
-
-    std::vector<Matrix> blocs_vect;
-    for (int i=1; i<=N_space; i++) {
-        for (int j=i; j<=N_space; j++) {
-            blocs_vect.push_back(U_vect[i] * V_vect[j]);
-        }
-    }
-
-    int n = N_space * N_space;
-    Matrix res(n,n);
-    // remplissage du triangle superieur de l'inverse
-    for (int i=1; i<=N_space; i++) {
-        for (int j=i; j<=N_space; j++) {
-            int nb_bloc = (i-1)*N_space+j-i+1; // (i-1)*N_space + j-(i-1)
-            Matrix fill_bloc = blocs_vect[nb_bloc];
-            for (int k=1; k<=N_space; k++) {
-                for (int l=1; l<=N_space; l++) {
-                    // Ligne_element = (Ligne_bloc -1) * N_space + Ligne_element_dans_bloc
-                    // Colonne_element = (Colonne_bloc -1) * N_space + Colonne_element_dans_bloc
-                    res((i-1)*N_space+k,(j-1)*N_space+l) = fill_bloc(k,l);
-                }
-            }
-        }
-    }
-    // remplissage du triangle inferieur de l'inverse par symetrie (inverse de symetrique reste symetrique)
-    for (int i=1; i<=N_space; i++) {
-        for (int j=1; j<=i; j++) {
-            res(i,j) = res(j,i);
-        }
-    }
-
-    return res;
-}
-*/
-
-Matrix &Matrix::operator=(const Matrix &copy)
-{
-    set_row(copy.get_row());
-    set_col(copy.get_col());
-    if (&copy != this)
-    {
-        Matrix tmp = copy;
-        double *tmp_data = data_;
-        data_ = copy.data_;
-        tmp.data_ = tmp_data;
-    }
-    return *this;
-}
 
 // overload of exterior operators
 // overload of +
@@ -293,7 +168,7 @@ Matrix operator+(const Matrix &mat1, const Matrix &mat2)
         }
         return (res);
     }
-    throw std::invalid_argument("Non conform matrices");
+    throw std::invalid_argument("Non conform matrixes");
 }
 
 // overload of -
@@ -325,7 +200,7 @@ Matrix operator*(const Matrix &mat1, const Matrix &mat2)
         }
         return (res);
     }
-    throw std::invalid_argument("Non conform matrices");
+    throw std::invalid_argument("Non conform matrixes");
 }
 
 // matrix * scalar
@@ -354,7 +229,7 @@ Matrix operator*(double lambda, const Matrix &mat)
 Matrix operator/(const Matrix &mat, double lambda)
 {
     if (abs(lambda) < 1e-15)
-        throw std::invalid_argument("Cannot divide by a null scalar");
+        throw std::invalid_argument("Division by zero");
     int n = mat.get_row();
     int p = mat.get_col();
     Matrix res = Matrix(n, p);

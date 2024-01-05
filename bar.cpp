@@ -1,4 +1,4 @@
-#include "headers/barre.hpp"
+#include "headers/bar.hpp"
 #include "headers/matrix.hpp"
 #include "headers/constants.hpp"
 
@@ -6,10 +6,10 @@
 
 using namespace cst;
 
-Matrix F_barre()
+Matrix F_bar()
 {
     Matrix F(N_space, 1);
-    // [L/10; 2*L/10]
+    // [L/10; 2L/10]
     for (int p = N_space / 10; p <= N_space / 5; p++)
     {
         F(p, 1) = tmax * pow(f, 2);
@@ -22,7 +22,7 @@ Matrix F_barre()
     return F;
 }
 
-Matrix evolution_barre(const double lambda, const double rho, const double c_mat)
+Matrix bar_evolution(const double lambda, const double rho, const double c_mat)
 {
     const double kappa = lambda / (rho * c_mat);
     const double alpha = kappa * delta_t / pow(delta_x, 2);
@@ -31,7 +31,7 @@ Matrix evolution_barre(const double lambda, const double rho, const double c_mat
     Matrix A(N_space, N_space);
     fill_tridiag(A, a, b, a);
 
-    Matrix F = F_barre();
+    Matrix F = F_bar();
     Matrix C = -alpha * pow(delta_x, 2) * F / lambda;
 
     Matrix Id(N_space, N_space);

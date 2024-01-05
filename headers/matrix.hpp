@@ -1,14 +1,14 @@
 /**
  * \file matrix.h
- * This file implements the definition of a class tamplate
+ * This file provides the implementation of a class tamplate
  *
- * It contains x functions :
- * - the constructor
- * - the copy constructor
- * - get_row allows to have the number of rows
- * - get_col allows to have the number of columns
- * - set_row allows to set the number of rows
- * - set_col allows to set the number of columns
+ * It contains the following functions :
+ * - constructor
+ * - copy constructor
+ * - get_row retrieves the number of rows
+ * - get_col retrieves the number of columns
+ * - set_row sets the number of rows
+ * - set_col sets the number of columns
  *
  */
 
@@ -25,16 +25,16 @@ class Matrix
 
 public:
     /**
-     * \brief the  constructor of the class
-     * \param i the number of rows of the matrix
-     * \param j the number of columns of the matrix
+     * \brief the  constructor for the class
+     * \param i the number of rows in the matrix
+     * \param j the number of columns in the matrix
      */
     Matrix(int, int);
     // destructor
     ~Matrix();
     /**
-     * \brief the copy constructor of the class
-     * \param mat the matrix we want to copy
+     * \brief the copy constructor for the class
+     * \param mat the matrix to be copied
      */
     Matrix(const Matrix &);
 
@@ -43,26 +43,26 @@ public:
 
     // getter : matrix size
     /**
-     * \brief the getter of the number of rows of the matrix
+     * \brief  thegetter for the number of rows in the matrix
      * \return the number of rows in the matrix
      */
     int get_row() const;
 
     /**
-     * \brief the getter of the number of columns of the matrix
+     * \brief the getter for the number of columns in the matrix
      * \return the number of columns in the matrix
      */
     int get_col() const;
 
     /**
      * \brief sets the number of rows in the matrix
-     * \param i the number of rows we want to set for the matrix
+     * \param i the desired number of rows for the matrix
      */
     void set_row(int);
 
     /**
      * \brief sets the number of columns in the matrix
-     * \param j the number of columns we want to set for the matrix
+     * \param j the desired number of columns for the matrix
      */
     void set_col(int);
 
@@ -70,88 +70,121 @@ public:
 
     /**
      * \brief transforms the two indices of a matrix into a single index for an array
-     * \param i the index of the line in the matrix
+     * \param i the index of the row in the matrix
      * \param j the index of the column in the matrix
-     * \return the index of the array corresponding to the two indices of the matrix
+     * \return the index of the array corresponding to the two matrix indices
      */
     int offset(int, int) const;
 
+    // AMÉLIORER ICI
     /**
-     * \brief overloads the operator []
+     * \brief overloads the operator [] for array access
      * \param i the index in the array
-     * \return
+     * \return the value of the element at the specified index
      */
     double operator[](int) const;
     double &operator[](int);
+
+    // AMÉLIORER ICI
     /**
-     * \brief overloads the operator ()
+     * \brief Accesses the element at the specified row and column using parentheses.
+     * \param row the row index
+     * \param col the column index
+     * \return the value of the element at the specified row and column
      */
     double operator()(int, int) const;
     double &operator()(int, int);
 
     /**
-     * \brief overloads the operator =
+     * \brief Overloads the equality operator (==) to compare two matrices for equality
+     * \param other The matrix to compare with
+     * \return True if the matrices are equal, false otherwise
      */
     bool operator==(const Matrix &);
 
+    /**
+     * \brief Overloads the assignment operator (=) to copy the content of another matrix
+     * \param other The matrix to copy
+     * \return Reference to the modified matrix after assignment
+     */
     Matrix &operator=(const Matrix &);
 };
 
 /**
- * \brief returns the inverse of the matrix put in parameter
- * \param mat the matrix we want to inverse
- * \return the inverse of the matrix
+ * \brief Computes the inverse of a matrix using a specified method
+ * \param N_space The dimension of the square matrix
+ * \param a The value 'a' used in the inversion method
+ * \param b The value 'b' used in the inversion method
+ * \param Id The input matrix to be inverted
+ * \return The inverted matrix using the specified parameters
  */
 Matrix inverse(const int, const double, const double, const Matrix &);
 
-/*
-Matrix inverse_diag(const int, Matrix);
-
-Matrix inverse_gauss(const Matrix);
-
-Matrix inverse_block(const int, const double, const double);
-
-Matrix transpose(const int, const Matrix);
-*/
-
-// overload of exterior operators (they are outside of the class)
 /**
- * \brief overloads the operator +
+ * \brief Overloads the addition operator (+) for matrix addition.
+ * \param mat1 The first matrix.
+ * \param mat2 The second matrix.
+ * \return The result of adding the two matrices.
+ * \throws std::invalid_argument if the matrices are not conformable for addition.
  */
 Matrix operator+(const Matrix &, const Matrix &); // Overload the + operator
 
 /**
- * \brief overloads the operator -
+ * \brief Overloads the soustraction operator (-) for matrix subtraction
+ * \param mat1 The first matrix
+ * \param mat2 The second matrix
+ * \return The result of subtracting the two matrices
+ * \throws std::invalid_argument if the matrices are not conformable for subtraction
  */
 Matrix operator-(const Matrix &, const Matrix &); // Overload the - operator
 
 /**
- * \brief overloads the operator * between two Matrix
+ * \brief Overloads the multiplication operator (*) for matrix multiplication
+ * \param mat1 The first matrix
+ * \param mat2 The second matrix
+ * \return The result of multiplying the two matrices
+ * \throws std::invalid_argument if the matrices are not conformable for multiplication
  */
 Matrix operator*(const Matrix &, const Matrix &); // matrix * matrix
 
 /**
- * \brief overloads the operator * between a matrix and a double
+ * \brief Overloads the multiplication operator (*) for scalar multiplication.
+ * \param mat The matrix to be multiplied.
+ * \param lambda The scalar value for multiplication.
+ * \return The result of multiplying the matrix by the scalar value.
  */
 Matrix operator*(const Matrix &, double); // matrix * scalar
 
 /**
- * \brief overloads the operator * between a double and a matrix
+ * \brief Overloads the multiplication operator (*) for scalar multiplication.
+ * \param mat The matrix to be multiplied.
+ * \param lambda The scalar value for multiplication.
+ * \return The result of multiplying the matrix by the scalar value.
  */
 Matrix operator*(double, const Matrix &); // scalar * matrix
 
 /**
- * \brief overloads the operator / between a matrix and a double
+ * \brief Overloads the division operator (/) for scalar division
+ * \param mat The matrix to be divided
+ * \param lambda The scalar value for division
+ * \return The result of dividing the matrix by the scalar value
  */
 Matrix operator/(const Matrix &, double); // matrix / scalar
 
 /**
- * \brief overloads the operator << to use it with a matrix
+ * \brief Overloads the output stream operator (<<) for matrix output to an ostream.
+ * \param os The output stream.
+ * \param mat The matrix to be output.
+ * \return A reference to the output stream.
  */
 std::ostream &operator<<(std::ostream &, const Matrix &); // printing
 
 /**
- * \brief fills a tridiagonal matrix
+ * \brief Fills a tridiagonal matrix with specified values.
+ * \param A The tridiagonal matrix to be filled.
+ * \param u The upper diagonal element value.
+ * \param m The main diagonal element value.
+ * \param d The lower diagonal element value.
  */
 void fill_tridiag(Matrix &, double, double, double);
 

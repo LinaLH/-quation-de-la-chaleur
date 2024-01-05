@@ -6,16 +6,16 @@ using namespace std;
 
 int support_choice()
 {
-    int choix;
+    int choice;
 
 debut_demande:
 
-    cout << "Quel support voulez vous utiliser ? [1] Barre [2] Plaque \n";
-    cin >> choix;
+    cout << "Which support do you want ? [1] Bar [2] Surface \n";
+    cin >> choice;
 
-    if ((!(cin)) || (choix != 1 && choix != 2))
+    if ((!(cin)) || (choice != 1 && choice != 2))
     {
-        cout << "Erreur : vous avez entré un support pas possible, veuillez réessayer :\n";
+        cout << "Error : you have chosen an unavailable support, please try again :\n";
         cin.clear();
         // cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cin.ignore(10, '\n');
@@ -23,26 +23,26 @@ debut_demande:
         goto debut_demande;
     }
 
-    return choix;
+    return choice;
 }
 
 int material_choice()
 {
-    int choix;
+    int choice;
 
 debut_demande:
 
-    cout << "De quel matériel souhaitez vous le support ? [1] Cuivre [2] Fer [3] Verre [4] Polystyrène \n";
-    cin >> choix;
+    cout << "Which material do you want ? [1] Copper [2] Iron [3] Glass [4] Polystyrene \n";
+    cin >> choice;
 
-    if ((!(cin)) || (choix > 4 || choix < 1))
+    if ((!(cin)) || (choice > 4 || choice < 1))
     {
-        cout << "Erreur : vous avez choisi un matériel pas disponible, veuillez réessayer :\n";
+        cout << "Error : you have chosen an unavailable material, please try again :\n";
         cin.clear();
         // cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cin.ignore(10, '\n');
         goto debut_demande;
     }
 
-    return choix;
+    return choice;
 }

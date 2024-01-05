@@ -1,7 +1,7 @@
-#ifndef MATERIEL_HPP // to avoid multiple inclusions
-#define MATERIEL_HPP
+#ifndef MATERIAL_HPP // to avoid multiple inclusions
+#define MATERIAL_HPP
 
-namespace materiaux
+namespace materials
 {
     namespace cuivre
     {
