@@ -16,6 +16,7 @@
 #define MATRIX_HPP
 
 #include <iostream>
+#include "constants.hpp"
 
 class Matrix
 {
@@ -41,9 +42,8 @@ public:
     // move constructor
     Matrix(Matrix &&);
 
-    // getter : matrix size
     /**
-     * \brief  thegetter for the number of rows in the matrix
+     * \brief  the getter for the number of rows in the matrix
      * \return the number of rows in the matrix
      */
     int get_row() const;
@@ -187,5 +187,12 @@ std::ostream &operator<<(std::ostream &, const Matrix &); // printing
  * \param d The lower diagonal element value.
  */
 void fill_tridiag(Matrix &, double, double, double);
+
+/**
+ * \brief returns the maximum value within the matrix
+ * \param U the matrix in which we search for the maximum value
+ * \return a double representing the maximum value in the matrix
+ */
+double max_matrix(Matrix U);
 
 #endif

@@ -35,6 +35,15 @@ void play_bar(Matrix U, SDL_Renderer *renderer);
 void play_surface(Matrix U, SDL_Renderer *renderer);
 
 /**
+ * \brief adjusts the matrix values for optimal curve representation
+ * \param U the matrix to be adjusted
+ * \param min the minimum value in the matrix
+ * \param max the maximum value in the matrix
+ * \return the scaled matrix
+ */
+Matrix scale_curve(Matrix U, double min, double max);
+
+/**
  * \brief initializes the window fot the SDL library
  * \param width the desired width for the window
  * \param height the desired height for the window
@@ -64,29 +73,13 @@ void loop_bar(SDL_Renderer *renderer, Matrix U);
 void loop_surface(SDL_Renderer *renderer, Matrix U);
 
 /**
- * \brief renders a grid as a backdrop behind the curve
- * \param renderer the initialized renderer
- */
-void grid(SDL_Renderer *renderer);
-
-/**
- * \brief returns the maximum value within the matrix
- * \param U the matrix in which we search for the maximum value
- * \return a double representing the maximum value in the matrix
- */
-double max_matrix(Matrix U);
-
-/**
  * \brief Updates and refreshes the display.
  * \param renderer The renderer we want to refresh.
  */
 void refresh_display(SDL_Renderer *renderer);
 
 /**
- * \brief adjusts the matrix values for optimal curve representation
- * \param U the matrix to be adjusted
- * \param min the minimum value in the matrix
- * \param max the maximum value in the matrix
- * \return the scaled matrix
+ * \brief renders a grid as a backdrop behind the curve
+ * \param renderer the initialized renderer
  */
-Matrix scale_curve(Matrix U, double min, double max);
+void grid(SDL_Renderer *renderer);

@@ -257,19 +257,4 @@ void grid(SDL_Renderer *renderer)
     SDL_RenderPresent(renderer);
 }
 
-double max_matrix(Matrix U)
-{
-    double max = 0;
 
-    // Iterate over the space dimension (rows)
-    for (int i = 1; i < N_space + 1; i++)
-    {
-        // Iterate over a limited number of time steps (columns) for performance
-        for (int j = 1; j < 101; j++)
-        {
-            if (U(i, j * 10) > max)
-                max = U(i, j * 10);
-        }
-    }
-    return max;
-}
